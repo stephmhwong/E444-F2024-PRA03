@@ -80,5 +80,14 @@ def test_messages(client):
 def test_delete_message(client):
     """Ensure the messages are being deleted"""
     rv = client.get('/delete/1')
+    print(rv.data)
     data = json.loads(rv.data)
     assert data["status"] == 1
+
+
+def test_search_with_query(client):
+    # Call the search endpoint
+    rv = client.get('/search/?query=Hello', follow_redirects=True)
+
+    # Ensure the status code is OK
+    assert rv.status_code == 200
