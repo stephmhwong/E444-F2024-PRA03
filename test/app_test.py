@@ -90,7 +90,7 @@ def test_delete_message(client):
 
 def test_search_with_query(client):
     # Call the search endpoint
-    rv = client.get('/search/?query=Hello', follow_redirects=True)
+    rv = client.get("/search/?query=Hello", follow_redirects=True)
 
     # Ensure the status code is OK
     assert rv.status_code == 200
