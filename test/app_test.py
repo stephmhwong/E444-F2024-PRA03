@@ -82,6 +82,7 @@ def test_delete_message(client):
     rv = client.get("/delete/1")
     data = json.loads(rv.data)
     assert data["status"] == 0
+
     login(client, app.config["USERNAME"], app.config["PASSWORD"])
     rv = client.get("/delete/1")
     data = json.loads(rv.data)
@@ -89,8 +90,29 @@ def test_delete_message(client):
 
 
 def test_search_with_query(client):
-    # Call the search endpoint
-    rv = client.get("/search/?query=Hello", follow_redirects=True)
-
-    # Ensure the status code is OK
+    # login and add an entry
+    login(client, app.config["USERNAME"], app.config["PASSWORD"])
+    rv = client.post(
+        "/add",
+        data=dict(title="Test Title", text="<strong>HTML</strong> allowed here"),
+        follow_redirects=True,
+    )
+    rv = client.get('/search/?query=Test')
+       
+    # check the status code and test
     assert rv.status_code == 200
+    assert b"Test Title" in rv.data
+
+def test_delete_entry_add_not_logged_in(client):
+    """Ensure that a post cannot be deleted when not logged in"""
+    rv = client.get("/delete/1")
+    data = json.loads(rv.data)
+    assert data["status"] == 0
+
+    """Ensure that a post cannot be added when not logged in"""
+    rv = client.post(
+        "/add",
+        data=dict(title="Test Title", text="<strong>HTML</strong> allowed here"),
+        follow_redirects=True,
+    )
+    assert b"Test Title" not in rv.data

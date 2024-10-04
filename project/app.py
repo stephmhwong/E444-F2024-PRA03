@@ -25,8 +25,6 @@ DATABASE = "flaskr.db"
 USERNAME = "admin"
 PASSWORD = "admin"
 SECRET_KEY = "change_me"
-DATABASE_URL = "postgresql://ece444_deploy_dbtest_fqsv_user:iiBhQ2VFvnCFYPKYh4Sk3nSnNh3hFTrX@dpg-cru3filds78s73duicog-a.oregon-postgres.render.com/ece444_deploy_dbtest_fqsv python create_db.py"
-
 
 url = os.getenv("DATABASE_URL", f"sqlite:///{Path(basedir).joinpath(DATABASE)}")
 
